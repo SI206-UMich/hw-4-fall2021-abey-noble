@@ -28,7 +28,11 @@ class Customer:
     # Submit_order takes a cashier, a stall and an amount as parameters, 
     # it deducts the amount from the customer’s wallet and calls the receive_payment method on the cashier object
     def submit_order(self, cashier, stall, amount): 
-        pass
+        #deducts amount from wallet
+        self.wallet = self.wallet - amount
+
+        #calls receive_payment
+        cashier.receive_payment(stall, amount)
 
     # The __str__ method prints the customer's information.    
     def __str__(self):
@@ -72,7 +76,54 @@ class Cashier:
 ## Complete the Stall class here following the instructions in HW_4_instructions_rubric
 class Stall:
     
-    pass
+    #constructor
+    def __init__(self, name, inventory):
+        self.name = name
+        self.inventory = inventory
+        self.cost = 7
+        self.earnings = 0
+    
+    #process_order method
+    def process_order(self, food, quantity):
+        if self.has_item(food, quantity) == True:
+            #update the stock of the inventory
+            self.inventory[food] = self.inventory[food] - quantity
+            #update the earnings
+            self.earnings = self.compute_cost(quantity)
+        else 
+            return "ERRRRRROR: THIS STALL DOESN'T HAVE ENOUGH" + name
+
+    #has_item method
+    def has_item(self, food, quantity):
+        #if enough food left
+        if quantity <= self.inventory.get(food):
+            return True
+        #else not enough
+        else:
+            return False 
+    
+    #stock_up method
+    def stock_up(self, food, quantity):
+        #if food exists (has at the very least 1) then add quantity
+        if self.has_item(food, 1)
+            self.inventory[food] = self.inventory[food] + quantity
+        #if food doesn't exist then add key food with default val quantity
+        else:
+            self.inventory[food] = self.invetory.get(food, quantity)
+
+    #compute_cost method
+    def compute_cost(self, quantity):
+        return quantity * self.cost
+    
+    #str
+    def __str__(self):
+        inventory_list = list(self.inventory)
+        return "Hello, we are " + self.name + ". This is current menu " + inventory_list = ". We charge $" + self.cost + " per item. We have $" + self.earnings + " in total."
+        
+        
+
+
+
 
 
 class TestAllMethods(unittest.TestCase):
@@ -179,6 +230,24 @@ class TestAllMethods(unittest.TestCase):
 ### Write main function
 def main():
     #Create different objects 
+    #inventories
+    first_inventory = {"Carrot":50, "Apple":75, "Orange":30}
+    second_inventory = {"Bread":40, "Rice":20, "Soup":80}
+
+    #customers
+    bob = Customer("bob", 20)
+    rainn = Customer("rainn", 70)
+    edgar = Customer("edgar", 100)
+
+    #stalls
+    stall_blue = Stall("blue", first_inventory)
+    stall_pink = Stall("pink", second_inventory)
+
+    #cashiers
+    directory = [first_inventory, second_inventory]
+    cashier_square = Cashier("square", directory)
+    cashier_rectangle = Cashier("rectangle", directory)
+
 
     #Try all cases in the validate_order function
     #Below you need to have *each customer instance* try the four cases
