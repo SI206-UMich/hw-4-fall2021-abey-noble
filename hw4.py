@@ -1,6 +1,6 @@
 
 import unittest
-
+# made a change here to test
 # The Customer class
 # The Customer class represents a customer who will order from the stalls.
 class Customer: 
