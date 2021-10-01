@@ -230,14 +230,21 @@ class TestAllMethods(unittest.TestCase):
 	# Test validate order
     def test_validate_order(self):
 		# case 1: test if a customer doesn't have enough money in their wallet to order
-        self.assertEqual(self.f2.validate_order(self.c1, self.s1, "Burger", 20), "Don't have enough money for that :( Please reload more money!")
+        self.f2.validate_order(self.c1, self.s1, "Burger", 20)
+        self.f2.wallet,
+        self.assertEqual(self.f2.wallet, 150)
 		# case 2: test if the stall doesn't have enough food left in stock
         self.f1.reload_money(400)
-        self.assertEqual(self.f1.validate_order(self.c2, self.s3, "Taco", 60), "Our stall has run out of " + "Taco" + " :( Please try a different stall!")
+        self.f1.validate_order(self.c2, self.s3, "Taco", 60)
+        self.assertEqual(self.f1.wallet, 500)
 		# case 3: check if the cashier can order item from that stall
         new_inventory = {"Sandwich":20, "Sub":10}
         self.s4 = Stall("Barbeque", new_inventory)
-        self.assertEqual(self.f2.validate_order(self.c1, self.s4, "Sandwich", 2), "Sorry, we don't have that vendor stall. Please try a different one.")
+        self.f2.validate_order(self.c1, self.s4, "Sandwich", 2)
+        self.assertEqual(self.f2.wallet, 150)
+        #case 4: it's not one of the above cases and the cashier actually can place the order
+        self.f2.validate_order(self.c2, self.s2, "Burger", 5)
+        self.assertEqual(self.f2.wallet, 105)
 
     # Test if a customer can add money to their wallet
     def test_reload_money(self):
